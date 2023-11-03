@@ -150,7 +150,7 @@ public class Empresa extends HttpServlet {
 					}
 				} else {
 					// Error: no se pudo guardar el empleado
-					request.setAttribute("mensajeError", "No se pudo guardar el empleado empleado porque el DNI ya existe");
+					request.setAttribute("mensajeError", "No se pudo guardar el empleado empleado porque el DNI ya existe o has puestos campos no validos");
 				}
 
 				// Redirigir de vuelta a la página de inicio
@@ -229,7 +229,7 @@ public class Empresa extends HttpServlet {
 					}
 				} else {
 					// Error: no se pudo actualizar el empleado
-					request.setAttribute("mensajeError", "No se pudo actualizar el empleado porque el DNI no existe");
+					request.setAttribute("mensajeError", "No se pudo actualizar el empleado porque el DNI no existe o has insertado un campo mal");
 				}
 
 				// Redirigir de vuelta a la página de inicio

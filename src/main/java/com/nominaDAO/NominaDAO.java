@@ -178,7 +178,7 @@ public class NominaDAO {
 	        connection.setAutoCommit(false);
 
 	        // Verifica si el empleado existe en la base de datos
-	        if (existeEmpleadoConConDni(empleado.getDni())) {
+	        if (existeEmpleadoConConDni(empleado.getDni()) && validarCamposEmpleado(empleado)) {
 	            // Realiza la actualización de los datos del empleado
 	            String sql = "UPDATE empleados SET nombre=?, sexo=?, categoria=?, anyos=? WHERE dni=?";
 	            statement = connection.prepareStatement(sql);
@@ -225,7 +225,6 @@ public class NominaDAO {
 	}
 	
 	//Metodo para que me actualice el sueldo en la base de datos
-	
 	public boolean actualizarSueldo(String dniEmpleado, int nuevoSueldo) throws SQLException {
 	    Connection connection = null;
 	    PreparedStatement statement = null;
@@ -274,7 +273,8 @@ public class NominaDAO {
 	 */
 	
 	public List<Empleado> obtenerEmpleados() throws SQLException, DatosNoCorrectosException {
-	    ResultSet resultSet = null;
+	    
+		ResultSet resultSet = null;
 	    List<Empleado> listaEmpleados = new ArrayList<>();
 
 	    String sql = null;
