@@ -23,6 +23,12 @@
             <tr>
                 <td><a href="Empresa?opcion=editarEmpleado">Editar Empleados</a></td>
             </tr>
+            <tr>
+                <td><a href="Empresa?opcion=registro">Registrar Usuario</a></td>
+            </tr>
+            <tr>
+                <td><a href="Empresa?opcion=login">Login Usuario</a></td>
+            </tr>
         </table>
         <div id="alert" class="alert"></div>
     </div>
@@ -44,11 +50,13 @@
         </script>
     </c:if>
 
-    <c:if test="${not empty mensajeError}">
+	<c:if test="${not empty mensajeError}">
         <script>
             showAlert("error", "<c:out value='${mensajeError}' />");
         </script>
-    </c:if>
+    </c:if> 
+
+    
 </body>
 </html>
 
