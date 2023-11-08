@@ -10,7 +10,8 @@
 </head>
 <body>
 	<h1>Buscar Salario de Empleado</h1>
-	<a href="index.jsp" class="boton-atras">Volver</a>
+	<!-- <a href="/Gestion-Nominas/views/componentes/menu.jsp" class="boton-atras">Volver</a> -->
+	<a href="/Gestion-Nominas/views/componentes/menu.jsp?volver=true&mostrarMensaje=false" class="boton-atras">Volver</a>
 	<form action="Empresa?opcion=mostrarSalario" method="post">
 		<label for="dni">DNI del Empleado:</label> <input type="text" id="dni"
 			name="dni" required> <input type="submit"

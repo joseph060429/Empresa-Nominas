@@ -18,21 +18,19 @@ import com.nomina.model.User;
 import middleware.validateToken;
 
 public class authController {
+	
+//	id UUID DEFAULT uuid_generate_v4() PRIMARY KEY  esto hice para generar el campo id, esto hace que me genere automáticamente  un nuevo valor UUID 
+//  cada vez que inserto una fila en la tabla y no especifique un valor para ese campo, esto me dijeron en la empresa que era por seguridad
+
 
 	Connection connection = null;
 	PreparedStatement statement = null;
 	boolean exito = false;
 	
 	public boolean registrarUsuario(User user) throws SQLException {
-//	    Connection connection = null;
-//	    PreparedStatement statement = null;
-//	    boolean exito = false;
-
 	    try {
 	        connection = obtenerConexion();
 	        connection.setAutoCommit(false);
-	        
-	        ;
 
 	        // Verificar si el usuario ya existe en la base de datos por correo electrónico
 	        if (existeUserconEmail(user.getEmail().toLowerCase())) {
@@ -105,10 +103,8 @@ public class authController {
 	private boolean validarCamposUser(User user) {
 		boolean nombreValido = user.getName() != null && user.getName().length() <= 30;
 		boolean apellidosValidos = user.getSurnames() != null && user.getSurnames().length() <= 50;
-		boolean passwordValida = user.getPassword() != null && user.getPassword().length() == 8;
+		boolean passwordValida = user.getPassword() != null && user.getPassword().length() >= 8 && user.getPassword().length() <= 15;
 		
-		
-
 		return nombreValido && apellidosValidos && passwordValida;
 	}
 
@@ -121,7 +117,7 @@ public class authController {
 	        connection = obtenerConexion();
 	        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
 	        statement = connection.prepareStatement(sql);
-	        statement.setString(1, email); // Corregir el índice del parámetro a 1
+	        statement.setString(1, email);
 	        resultSet = statement.executeQuery();
 
 	        if (resultSet.next()) {
@@ -149,15 +145,18 @@ public class authController {
 	        statement = connection.prepareStatement(sql);
 	        statement.setString(1, email);
 	        resultSet = statement.executeQuery();
-
+	        
+	        //Si encuentro un resultado
 	        if (resultSet.next()) {
-	            String storedEmail = resultSet.getString("email");
+//	            String storedEmail = resultSet.getString("email");
+	        	//Asigno una variable storedPassword a la pasword de la base de datos
 	            String storedPassword = resultSet.getString("password");
-
+	            
+	            //Desencripto la contraseña
 	            if (BCrypt.checkpw(password, storedPassword)) {
 	                // Las credenciales son válidas
 	                Map<String, Object> claims = new HashMap<>();
-	                claims.put("email", email); // Agrega las reclamaciones necesarias, en este caso, el correo electrónico del usuario
+	                claims.put("email", email); // Agrego mis reclamaciones necesarias, en este caso, el correo electrónico del usuario
 
 	                // Generar el token JWT
 	                String token = validateToken.generateToken(claims);

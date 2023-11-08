@@ -155,30 +155,33 @@ public class Empresa extends HttpServlet {
 
 				// Llamar al método guardar de NominaDAO
 				boolean exito = nominaDAO.guardar(empleado);
-
+				
 				if (exito) {
-					// Éxito: el empleado se guardó correctamente
-					// Calcular el sueldo del empleado
-					int sueldoNuevo = Nomina.sueldo(empleado);
+				    // Éxito: el empleado se guardó correctamente
+				    // Calcular el sueldo del empleado
+				    int sueldoNuevo = Nomina.sueldo(empleado);
 
-					// Actualizar el sueldo en la base de datos
-					boolean exitoActualizacionSueldo = nominaDAO.actualizarSueldo(dni, sueldoNuevo);
+				    // Actualizar el sueldo en la base de datos
+				    boolean exitoActualizacionSueldo = nominaDAO.actualizarSueldo(dni, sueldoNuevo);
 
-					if (exitoActualizacionSueldo) {
-						// Éxito: el sueldo se actualizó correctamente
-						request.setAttribute("mensajeExito", "El empleado se guardó exitosamente.");
-
-					} else {
-						request.setAttribute("mensajeError", "No se pudo guardar el empleado");
-					}
+				    if (exitoActualizacionSueldo) {
+				        // Éxito: el sueldo se actualizó correctamente
+				        request.setAttribute("mensajeExito", "El empleado se guardó exitosamente.");
+				    } else {
+				        request.setAttribute("mensajeError", "No se pudo guardar el empleado");
+				    }
 				} else {
-					// Error: no se pudo guardar el empleado
-					request.setAttribute("mensajeError",
-							"No se pudo guardar el empleado empleado porque el DNI ya existe o has puestos campos no validos");
+				    // Error: no se pudo guardar el empleado
+				    request.setAttribute("mensajeError", "No se pudo guardar el empleado porque el DNI ya existe o has puesto campos no válidos");
 				}
 
 				// Redirigir de vuelta a la página de inicio
-				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+//				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/crear.jsp");
+//				requestDispatcher.forward(request, response);
+
+
+				// Redirigir de vuelta a la página de inicio
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/crear.jsp");
 				requestDispatcher.forward(request, response);
 			} catch (DatosNoCorrectosException | SQLException e) {
 				// Manejar las excepciones apropiadamente
@@ -210,12 +213,7 @@ public class Empresa extends HttpServlet {
 					} else {
 						// El DNI no existe en la base de datos, muestra un mensaje de error
 						request.setAttribute("mensajeError", "El DNI del empleado no existe en la base de datos.");
-						RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp"); // Reemplaza
-																											// "paginaDeError.jsp"
-																											// con la
-																											// página de
-																											// error que
-																											// desees
+						RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp"); 
 						requestDispatcher.forward(request, response);
 					}
 				} catch (SQLException | DatosNoCorrectosException e) {
@@ -270,45 +268,43 @@ public class Empresa extends HttpServlet {
 				e.printStackTrace();
 			}
 
-		} else if (opcion.equals("registrarUsuario")) {
-
-//			response.setContentType("text/html");
-
-
-			// Obtener los parámetros del formulario
+		} if (opcion.equals("registrarUsuario")) {
+			
 			String name = request.getParameter("name");
 			String surnames = request.getParameter("surnames");
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
 
-			// Realizar la lógica de registro aquí (puedes llamar a tu controlador o
-			// servicio)
+			// Realizo la lógica de registro aquí y llamo al controlador
 			authController authController = new authController();
 			User user = new User(name, surnames, email, password);
 
-			// Invoca el método de registro y almacena el resultado en una variable
-			boolean exito = false;
-
 			try {
-				exito = authController.registrarUsuario(user);
+			    boolean exito = authController.registrarUsuario(user);
 
-				if (exito) {
-					request.setAttribute("mensajeExito", "El usuario se registró exitosamente.");
-				} else {
-					request.setAttribute("mensajeError", "Error el empleado no se registró porque el email ya existe o pusiste un campo mal.");
-				}
-				// Redirigir de vuelta a la página de inicio
-				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
-				requestDispatcher.forward(request, response);
+			    if (exito) {
+			        // Me redirige al usuario a "menu.jsp" en la carpeta "componentes" después del registro exitoso
+			        System.out.println("Redirigiendo al usuario a menu.jsp");
+			        request.getSession().setAttribute("mensajeExito", "Registro exitoso.");
+			        response.sendRedirect(request.getContextPath() + "/views/componentes/menu.jsp");
+			    } else {
+			        // El registro no fue exitoso, muestra un mensaje de error
+			        request.setAttribute("mensajeError", "No se pudo completar el registro, porque el email ya existe, o has puesto un campo malo.");
+			        RequestDispatcher requestDispatcher = request.getRequestDispatcher("views/registro.jsp");
+			        requestDispatcher.forward(request, response);
+			    }
 			} catch (SQLException e) {
-				// Manejar las excepciones apropiadamente
-				e.printStackTrace();
+			    // Manejar las excepciones apropiadamente
+			    e.printStackTrace();
+			    // Puedes configurar un mensaje de error personalizado si lo necesitas
+			    request.setAttribute("mensajeError", "Ocurrió un error durante el registro.");
+			    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+			    requestDispatcher.forward(request, response);
 			}
-	}else if (opcion.equals("loginUsuario")) {
-		
-//		response.setContentType("text/html");
 
-        // Obtener los parámetros del formulario
+		}
+else if (opcion.equals("loginUsuario")) {
+	// Obtener los parámetros del formulario
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
@@ -319,13 +315,15 @@ public class Empresa extends HttpServlet {
             String token = authController.login(email, password);
 
             if (token != null) {
-            	request.getSession().setAttribute("mensajeExito", "Inicio de sesión exitoso.");
-                // El inicio de sesión fue exitoso, almacena el token en la sesión o como sea necesario
-                request.getSession().setAttribute("token", token);
-                response.sendRedirect("index.jsp");
+        	request.getSession().setAttribute("mensajeExito", "Inicio de sesión exitoso.");
+        	// El inicio de sesión fue exitoso, almacena el token en la sesión o como sea necesario
+            request.getSession().setAttribute("token", token);
+            response.sendRedirect(request.getContextPath() + "/views/componentes/menu.jsp");
             } else {
                 // Las credenciales son inválidas, muestra un mensaje de error
-            	request.getSession().setAttribute("mensajeError" , "Email o contraseña inválidos");
+//            	request.getSession().setAttribute("mensajeError" , "Email o contraseña inválidos");
+            	request.setAttribute("mensajeError", "Email o contraseña inválidos");
+
                 // Redirigir de vuelta al formulario de inicio de sesión
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("views/login.jsp");
                 requestDispatcher.forward(request, response);

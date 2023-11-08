@@ -9,7 +9,8 @@
 </head>
 <body>
     <h1>Editar Empleado</h1>
-    <a href="index.jsp" class="boton-atras">Volver</a>
+    <!-- <a href="/Gestion-Nominas/views/componentes/menu.jsp" class="boton-atras">Volver</a> -->
+    <a href="/Gestion-Nominas/views/componentes/menu.jsp?volver=true&mostrarMensaje=false" class="boton-atras">Volver</a>
     <form action="Empresa?opcion=editarEmpleado" method="post">
         <input type="hidden" name="opcion" value="guardar">
         <table>

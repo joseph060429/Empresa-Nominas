@@ -9,7 +9,8 @@
 </head>
 <body>
     <h1>Listar Empleados</h1>
-    <a href="index.jsp" class="boton-atras">Volver</a>
+    <!-- <a href="/Gestion-Nominas/views/componentes/menu.jsp" class="boton-atras">Volver</a> -->
+    <a href="/Gestion-Nominas/views/componentes/menu.jsp?volver=true&mostrarMensaje=false" class="boton-atras">Volver</a>
     <table>
         <tr>
             <th>DNI</th>

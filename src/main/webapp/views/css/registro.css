@@ -1,15 +1,8 @@
-/*  global.css 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-}
-
+/* registro.css */
 h1 {
     text-align: center;
-    color: #fff; Cambiar a blanco
+    color: #fff;
 }
-
- 
 
 form {
     max-width: 400px;
@@ -72,4 +65,4 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: #4CAF50;
-} 
+}

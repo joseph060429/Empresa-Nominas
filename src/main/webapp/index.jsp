@@ -1,62 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Menu de opciones</title>
-    <link rel="stylesheet" type="text/css" href="views/css/index.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Menu de Opciones Empleado</h1>
-        <table class="menu">
-            <tr>
-                <td><a href="Empresa?opcion=crear">Crear un Empleado</a></td>
-            </tr>
-            <tr>
-                <td><a href="Empresa?opcion=listar">Listar Empleados</a></td>
-            </tr>
-            <tr>
-                <td><a href="Empresa?opcion=mostrarSalario">Buscar Salarios</a></td>
-            </tr>
-            <tr>
-                <td><a href="Empresa?opcion=editarEmpleado">Editar Empleados</a></td>
-            </tr>
-            <tr>
-                <td><a href="Empresa?opcion=registro">Registrar Usuario</a></td>
-            </tr>
-            <tr>
-                <td><a href="Empresa?opcion=login">Login Usuario</a></td>
-            </tr>
-        </table>
-        <div id="alert" class="alert"></div>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="views/componentes/header.jsp" %>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Bienvenido a nuestra plataforma de gestión de empleados</h2>
+            <p>En nuestra empresa, te proporcionamos una solución integral para la gestión de empleados. Ya sea que necesites registrar nuevos empleados, actualizar información o consultar detalles de tus trabajadores, nuestro sistema lo hace fácil y eficiente.</p>
+            <p>Navega por nuestras opciones y descubre cómo podemos ayudarte a simplificar la administración de recursos humanos en tu organización.</p>
+            <p>Nuestros servicios incluyen:</p>
+            <ul>
+                <li>Registro de nuevos empleados con información detallada.</li>
+                <li>Actualización de datos de empleados existentes.</li>
+                <li>Búsqueda de empleados y salario.</li>
+                <li>Eliminar un empleado</li>
+            </ul>
+        </div>
+        <div class="col-md-4 text-center">
+            <img src="views/imagenes/logoServidor.jpg" alt="Logo de la Empresa" class="img-fluid mx-auto d-block mt-3 float-left">
+        </div>
     </div>
-    <script>
-        function showAlert(type, message) {
-            var alertElement = document.getElementById("alert");
-            alertElement.innerHTML = message;
-            alertElement.className = "alert alert-" + type;
-            alertElement.style.display = "block";
-            alertElement.style.opacity = 1; 
-            setTimeout(function () {
-                alertElement.style.opacity = 0; 
-            }, 4000);
-        }
-   </script>
-   <c:if test="${not empty mensajeExito}">
-        <script>
-            showAlert("success", "<c:out value='${mensajeExito}' />");
-        </script>
-    </c:if>
+</div> 
+<%@ include file="views/componentes/footer.jsp" %>
 
-	<c:if test="${not empty mensajeError}">
-        <script>
-            showAlert("error", "<c:out value='${mensajeError}' />");
-        </script>
-    </c:if> 
 
-    
-</body>
-</html>
+ 
+
+
 
