@@ -36,8 +36,7 @@ public class authController {
 	        if (existeUserconEmail(user.getEmail().toLowerCase())) {
 	            System.out.println("El usuario ya existe en la base de datos.");
 	            exito = false;
-	            
-	       } else if (validarCamposUser(user) && isValidEmail(user.getEmail())) {
+	        } else if (validarCamposUser(user) && isValidEmail(user.getEmail())) {
 	    	   
 	            System.out.println("Campos válidos, procediendo a la inserción.");
 	            
@@ -180,13 +179,7 @@ public class authController {
 
 	    return null; 
 	}
-
-	
-	
-	
-	
-
-	private Connection obtenerConexion() throws SQLException {
+		private Connection obtenerConexion() throws SQLException {
 		return Conexion.getConnection();
 	}
 

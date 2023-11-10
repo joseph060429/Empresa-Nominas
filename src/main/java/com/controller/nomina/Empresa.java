@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.swing.text.AbstractDocument.Content;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -69,53 +71,89 @@ public class Empresa extends HttpServlet {
 	 * @throws IOException      Excepción de E/S.
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String opcion = request.getParameter("opcion");
+		String content = "";
 
 		if (opcion.equals("crear")) {
-			System.out.println("Usted a presionado la opcion crear");
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/crear.jsp");
+			System.out.println("Usted a presionado la opción crear");
+
+			request.setAttribute("content", "views/crear.jsp");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
 			requestDispatcher.forward(request, response);
-		} else if (opcion.equals("listar")) {
+			return;
+
+		}
+
+		else if (opcion.equals("listar")) {
 
 			NominaDAO nominaDAO = new NominaDAO();
 			List<Empleado> lista = new ArrayList<>();
 			try {
 				lista = nominaDAO.obtenerEmpleados();
-				for (Empleado empleado : lista) {
-//					System.out.println(empleado);
-				}
 				request.setAttribute("lista", lista);
-				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/listar.jsp");
-				requestDispatcher.forward(request, response);
 
+				// Establece el atributo "content" con la ruta de listar.jsp
+				request.setAttribute("content", "views/listar.jsp");
+
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+				requestDispatcher.forward(request, response);
 			} catch (SQLException | DatosNoCorrectosException e) {
-				// TODO Auto-generated catch block
+				// Maneja la excepción
 				e.printStackTrace();
 			}
 
-			System.out.println("Usted a presionado la opcion listar");
+			System.out.println("Usted a presionado la opción listar");
+			return;
+
 		}
 
 		else if (opcion.equals("mostrarSalario")) {
+			System.out.println("Usted a presionado la opcion mostrarSalario");
+			request.setAttribute("content", "views/buscarSalario.jsp");
 
-			// Redirige a la página "Mostrar Salario"
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/buscarSalario.jsp");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
 			requestDispatcher.forward(request, response);
+			return;
+
 		} else if (opcion.equals("editarEmpleado")) {
-			System.out.println("Usted a presionado la opcion editar Empleado");
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/editarEmpleado.jsp");
+			System.out.println("Usted a presionado la opcion editar");
+			request.setAttribute("content", "views/editarEmpleado.jsp");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
 			requestDispatcher.forward(request, response);
-		} else if (opcion.equals("registro")) {
-			System.out.println("Usted a presionado la opcion registrarse");
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/registro.jsp");
+			return;
+
+		} else if (opcion.equals("eliminarEmpleado")) {
+			System.out.println("Usted ha presionado la opción eliminar");
+			request.setAttribute("content", "views/eliminar.jsp");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
 			requestDispatcher.forward(request, response);
-		}else if (opcion.equals("login")) {
-			System.out.println("Usted a presionado la opcion loguearse");
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/login.jsp");
-			requestDispatcher.forward(request, response);
+			return;
 		}
+
+		else if (opcion.equals("registro")) {
+			System.out.println("Usted a presionado la opcion registrar");
+			request.setAttribute("content", "views/registro.jsp");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+			requestDispatcher.forward(request, response);
+			return;
+		} else if (opcion.equals("login")) {
+			request.setAttribute("mensajeError", "Email o contraseña inválidos");
+
+			request.setAttribute("content", "views/login.jsp");
+
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+			requestDispatcher.forward(request, response);
+			System.out.println("Usted ha presionado la opción loguearse");
+			return;
+
+		}
+		request.setAttribute("content", "views/componentes/menu.jsp");
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+		requestDispatcher.forward(request, response);
+		return;
 
 	}
 
@@ -155,39 +193,36 @@ public class Empresa extends HttpServlet {
 
 				// Llamar al método guardar de NominaDAO
 				boolean exito = nominaDAO.guardar(empleado);
-				
+
 				if (exito) {
-				    // Éxito: el empleado se guardó correctamente
-				    // Calcular el sueldo del empleado
-				    int sueldoNuevo = Nomina.sueldo(empleado);
+					// Éxito: el empleado se guardó correctamente
+					// Calcular el sueldo del empleado
+					int sueldoNuevo = Nomina.sueldo(empleado);
 
-				    // Actualizar el sueldo en la base de datos
-				    boolean exitoActualizacionSueldo = nominaDAO.actualizarSueldo(dni, sueldoNuevo);
+					// Actualizar el sueldo en la base de datos
+					boolean exitoActualizacionSueldo = nominaDAO.actualizarSueldo(dni, sueldoNuevo);
 
-				    if (exitoActualizacionSueldo) {
-				        // Éxito: el sueldo se actualizó correctamente
-				        request.setAttribute("mensajeExito", "El empleado se guardó exitosamente.");
-				    } else {
-				        request.setAttribute("mensajeError", "No se pudo guardar el empleado");
-				    }
+					if (exitoActualizacionSueldo) {
+						// Éxito: el sueldo se actualizó correctamente
+						request.setAttribute("mensajeExito", "El empleado se guardó exitosamente.");
+					} else {
+						request.setAttribute("mensajeError", "No se pudo guardar el empleado");
+					}
 				} else {
-				    // Error: no se pudo guardar el empleado
-				    request.setAttribute("mensajeError", "No se pudo guardar el empleado porque el DNI ya existe o has puesto campos no válidos");
+					// Error: no se pudo guardar el empleado
+					request.setAttribute("mensajeError",
+							"No se pudo guardar el empleado porque el DNI ya existe o has puesto campos no válidos");
 				}
-
-				// Redirigir de vuelta a la página de inicio
-//				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/crear.jsp");
-//				requestDispatcher.forward(request, response);
-
-
-				// Redirigir de vuelta a la página de inicio
-				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/crear.jsp");
+				// Redirigir de vuelta a la página de menu
+				request.setAttribute("content", "views/componentes/menu.jsp");
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
 				requestDispatcher.forward(request, response);
 			} catch (DatosNoCorrectosException | SQLException e) {
 				// Manejar las excepciones apropiadamente
 				e.printStackTrace();
 			}
 		} else if (opcion.equals("mostrarSalario")) {
+
 			String dni = request.getParameter("dni");
 
 			// Verificar si el DNI proporcionado no está vacío
@@ -207,13 +242,15 @@ public class Empresa extends HttpServlet {
 						request.setAttribute("nombre", nombre);
 						request.setAttribute("dni", dniEmpleado);
 
-						// Redirige a la página "Mostrar Salario"
-						RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/mostrarSalario.jsp");
+						// Configura el atributo "content" con la ruta de mostrarSalario.jsp
+						request.setAttribute("content", "views/mostrarSalario.jsp");
+						RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
 						requestDispatcher.forward(request, response);
 					} else {
 						// El DNI no existe en la base de datos, muestra un mensaje de error
 						request.setAttribute("mensajeError", "El DNI del empleado no existe en la base de datos.");
-						RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp"); 
+						request.setAttribute("content", "views/componentes/menu.jsp");
+						RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
 						requestDispatcher.forward(request, response);
 					}
 				} catch (SQLException | DatosNoCorrectosException e) {
@@ -245,12 +282,14 @@ public class Empresa extends HttpServlet {
 					// Actualizar el sueldo del empleado
 					int sueldoNuevo = Nomina.sueldo(empleado);
 
-					// Actualizar el sueldo en la base de datos
+					// Actualizar el sueldo en la base de dato
 					boolean exitoActualizacionSueldo = nominaDAO.actualizarSueldo(dni, sueldoNuevo);
 
 					if (exitoActualizacionSueldo) {
 						// Éxito: el sueldo se actualizó correctamente
 						request.setAttribute("mensajeExito", "El empleado se actualizó exitosamente.");
+						request.setAttribute("content", "views/componentes/menu.jsp");
+
 					} else {
 						request.setAttribute("mensajeError", "No se pudo actualizar el sueldo.");
 					}
@@ -261,6 +300,7 @@ public class Empresa extends HttpServlet {
 				}
 
 				// Redirigir de vuelta a la página de inicio
+				request.setAttribute("content", "views/componentes/menu.jsp");
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
 				requestDispatcher.forward(request, response);
 			} catch (DatosNoCorrectosException | SQLException e) {
@@ -268,8 +308,74 @@ public class Empresa extends HttpServlet {
 				e.printStackTrace();
 			}
 
-		} if (opcion.equals("registrarUsuario")) {
-			
+		} else if (opcion.equals("eliminarEmpleado")) {
+
+//			NominaDAO nominaDAO = new NominaDAO();
+//
+//			String dni = request.getParameter("dni");
+//
+//			try {
+//				// Llamar al método eliminar de NominaDAO
+//				boolean exito = nominaDAO.eliminar(dni);
+//
+//				if (exito) {
+//					// Éxito: el empleado se marcó como eliminado correctamente
+//					request.setAttribute("mensajeExito", "El empleado eliminó exitosamente.");
+//					request.setAttribute("content", "views/componentes/menu.jsp");
+//				} else {
+//					// Error: no se pudo marcar como eliminado el empleado
+//					request.setAttribute("mensajeError",
+//							"No se pudo eliminar porque el DNI no existe o has insertado un campo mal.");
+//					request.setAttribute("content", "views/componentes/menu.jsp");
+//					RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+//					requestDispatcher.forward(request, response);
+//				}
+//
+//				// Configurar la vista
+////			    request.setAttribute("content", "views/componentes/menu.jsp");
+//
+//				// Redirigir de vuelta a la página de inicio
+//				request.setAttribute("content", "views/componentes/menu.jsp");
+//				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+//				requestDispatcher.forward(request, response);
+//
+//			} catch (SQLException e) {
+//				// Manejar las excepciones apropiadamente
+//				e.printStackTrace();
+//			}
+
+			NominaDAO nominaDAO = new NominaDAO();
+			String dni = request.getParameter("dni");
+
+			try {
+				// Llamar al método eliminar de NominaDAO
+				boolean exito = nominaDAO.eliminar(dni);
+
+				if (exito) {
+					// Éxito: el empleado se marcó como eliminado correctamente
+					request.setAttribute("mensajeExito", "El empleado se eliminó exitosamente.");
+				} else {
+					// Error: no se pudo marcar como eliminado el empleado
+					request.setAttribute("mensajeError",
+							"No se pudo eliminar porque el DNI no existe o has insertado un campo mal.");
+				}
+
+			} catch (SQLException e) {
+				// Manejar las excepciones apropiadamente
+				e.printStackTrace();
+			}
+
+			// Configurar la vista
+			request.setAttribute("content", "views/componentes/menu.jsp");
+
+			// Redirigir de vuelta a la página de inicio
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+			requestDispatcher.forward(request, response);
+
+		}
+
+		else if (opcion.equals("registrarUsuario")) {
+
 			String name = request.getParameter("name");
 			String surnames = request.getParameter("surnames");
 			String email = request.getParameter("email");
@@ -280,65 +386,81 @@ public class Empresa extends HttpServlet {
 			User user = new User(name, surnames, email, password);
 
 			try {
-			    boolean exito = authController.registrarUsuario(user);
+				boolean exito = authController.registrarUsuario(user);
 
-			    if (exito) {
-			        // Me redirige al usuario a "menu.jsp" en la carpeta "componentes" después del registro exitoso
-			        System.out.println("Redirigiendo al usuario a menu.jsp");
-			        request.getSession().setAttribute("mensajeExito", "Registro exitoso.");
-			        response.sendRedirect(request.getContextPath() + "/views/componentes/menu.jsp");
-			    } else {
-			        // El registro no fue exitoso, muestra un mensaje de error
-			        request.setAttribute("mensajeError", "No se pudo completar el registro, porque el email ya existe, o has puesto un campo malo.");
-			        RequestDispatcher requestDispatcher = request.getRequestDispatcher("views/registro.jsp");
-			        requestDispatcher.forward(request, response);
-			    }
+				if (exito) {
+					// Me redirige al usuario a "menu.jsp" en la carpeta "componentes" después del
+					// registro exitoso
+					System.out.println("Redirigiendo al usuario a menu.jsp");
+//					request.getSession().setAttribute("mensajeExito", "Registro exitoso.");
+//					response.sendRedirect(request.getContextPath() + "/views/componentes/menu.jsp");
+					request.getSession().setAttribute("mensajeExito", "Registro exitoso.");
+					request.setAttribute("content", "views/componentes/menu.jsp");
+					RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+					requestDispatcher.forward(request, response);
+				} else {
+					// El registro no fue exitoso, muestra un mensaje de error
+					request.setAttribute("mensajeError",
+							"No se pudo completar el registro, porque el email ya existe, o has puesto un campo malo.");
+					request.setAttribute("content", "views/registro.jsp");
+					System.out.println("Errorrrr registro");
+
+					RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+					requestDispatcher.forward(request, response);
+				}
 			} catch (SQLException e) {
-			    // Manejar las excepciones apropiadamente
-			    e.printStackTrace();
-			    // Puedes configurar un mensaje de error personalizado si lo necesitas
-			    request.setAttribute("mensajeError", "Ocurrió un error durante el registro.");
-			    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
-			    requestDispatcher.forward(request, response);
+				// Manejar las excepciones apropiadamente
+				e.printStackTrace();
+				// Puedes configurar un mensaje de error personalizado si lo necesitas
+				request.setAttribute("mensajeError", "Ocurrió un error durante el registro.");
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+				requestDispatcher.forward(request, response);
 			}
 
 		}
-else if (opcion.equals("loginUsuario")) {
-	// Obtener los parámetros del formulario
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
 
-        // Realizar la lógica de inicio de sesión aquí
-        authController authController = new authController();
+		else if (opcion.equals("loginUsuario")) {
+			// Obtener los parámetros del formulario
 
-        try {
-            String token = authController.login(email, password);
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
 
-            if (token != null) {
-        	request.getSession().setAttribute("mensajeExito", "Inicio de sesión exitoso.");
-        	// El inicio de sesión fue exitoso, almacena el token en la sesión o como sea necesario
-            request.getSession().setAttribute("token", token);
-            response.sendRedirect(request.getContextPath() + "/views/componentes/menu.jsp");
-            } else {
-                // Las credenciales son inválidas, muestra un mensaje de error
-//            	request.getSession().setAttribute("mensajeError" , "Email o contraseña inválidos");
-            	request.setAttribute("mensajeError", "Email o contraseña inválidos");
+			// Realizo la lógica de inicio de sesión aquí
+			authController authController = new authController();
 
-                // Redirigir de vuelta al formulario de inicio de sesión
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("views/login.jsp");
-                requestDispatcher.forward(request, response);
-            }
-        } catch (SQLException e) {
-            // Manejar las excepciones apropiadamente
-            e.printStackTrace();
-            // Puedes configurar un mensaje de error personalizado si lo necesitas
-            System.out.println("Estoy en inicio de sesion malisimo");
-            request.setAttribute("mensajeError", "Ocurrió un error durante el inicio de sesión.");
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("views/login.jsp");
-            requestDispatcher.forward(request, response);
-        }
-		
+			try {
+				String token = authController.login(email, password);
+
+				if (token != null) {
+					request.getSession().setAttribute("mensajeExito", "Inicio de sesión exitoso.");
+					// El inicio de sesión fue exitoso, almacena el token en la sesión o como sea
+					// necesario
+					request.getSession().setAttribute("token", token);
+					// Redirigir a la página de menú en caso de éxito
+					response.sendRedirect(request.getContextPath() + "/Empresa?opcion=loginUsuario");
+				} else {
+					// Las credenciales son inválidas, muestro un mensaje de error
+					request.setAttribute("mensajeError", "Usuario o contraseña incorrectas.");
+					System.out.println("Errorrrr login");
+//					// No redirigir, me quedare en la misma página (login.jsp)
+					request.setAttribute("content", "views/login.jsp");
+					RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+					requestDispatcher.forward(request, response);
+
+				}
+
+			} catch (SQLException e) {
+				// Manejar las excepciones apropiadamente
+				e.printStackTrace();
+				// En caso de error en SQL, también puedes establecer un mensaje de error
+				request.setAttribute("mensajeError", "Ocurrió un error durante el inicio de sesión.");
+
+				// No redirigir, se quedará en la misma página (login.jsp)
+				request.setAttribute("content", "views/login.jsp");
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+				requestDispatcher.forward(request, response);
+			}
+
+		}
 	}
-
-}
 }

@@ -107,6 +107,16 @@ public class Empleado extends Persona{
 	public String toString() {
 	    return "DNI del empleado: " + dni + "\nNombre del empleado: " + nombre + "\nSexo del empleado: " + sexo + "\nCategoría del empleado: " + categoria + "\nAños en la empresa: " + anyos;
 	}
+	
+	private boolean deleted;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
 	
 

@@ -1,24 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Buscar Salario de Empleado</title>
-<link rel="stylesheet" type="text/css" href="views/css/global.css">
-</head>
-<body>
-	<h1>Buscar Salario de Empleado</h1>
-	<!-- <a href="/Gestion-Nominas/views/componentes/menu.jsp" class="boton-atras">Volver</a> -->
-	<a href="/Gestion-Nominas/views/componentes/menu.jsp?volver=true&mostrarMensaje=false" class="boton-atras">Volver</a>
-	<form action="Empresa?opcion=mostrarSalario" method="post">
-		<label for="dni">DNI del Empleado:</label> <input type="text" id="dni"
-			name="dni" required> <input type="submit"
-			value="Buscar Salario">
-	</form>
-</body>
-</html>
+<h2 class="text-center mt-4">Buscar Salario del Empleado</h2>
+<a href="javascript:history.back()" class="boton-atras">Volver</a>
+<form action="Empresa?opcion=mostrarSalario" method="post">
+	<label for="dni">DNI del Empleado:</label> <input type="text"
+		name="dni" class="form-control" placeholder="Ejemplo: 12345678A"
+		pattern="[0-9]{8}[A-Z]{1}" title="Formato válido: 12345678A" required
+		maxlength="9"> <input type="submit" value="Buscar Salario">
+</form>
+<script type="text/javascript" src="views/javaScript/borraBotones.js"></script>
 
 
 

@@ -66,3 +66,56 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #4CAF50;
 }
+
+.success-message {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: green;
+	color: white;
+	padding: 20px;
+	font-size: 18px;
+	text-align: right;
+	border-radius: 10px;
+	opacity: 1;
+	transition: opacity 0.5s;
+}
+
+.error-message {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: red;
+	color: white;
+	padding: 20px; /* Aumenta el espacio alrededor del mensaje */
+	font-size: 18px; /* Aumenta el tamaño de la fuente */
+	text-align: right;
+	border-radius: 10px; /* Aumenta la curvatura de los bordes */
+	opacity: 1;
+	transition: opacity 0.5s;
+}
+
+/* Animación de desvanecimiento */
+@keyframes fadeOut { 0% {
+	opacity: 1;
+}
+
+100%
+{
+opacity
+:
+0;
+}
+}
+
+/* Animación de desvanecimiento */
+@keyframes fadeOut { 0% {
+	opacity: 1;
+}
+100%
+{
+opacity
+:
+0;
+}
+}

@@ -1,4 +1,4 @@
-body {
+/* body {
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
 }
@@ -53,11 +53,11 @@ body {
 }
 
 .alert-success {
-    background-color: #4CAF50; /* Verde para éxito */
+    background-color: #4CAF50; Verde para éxito
 }
 
 .alert-error {
-    background-color: #f44336; /* Rojo para error */
+    background-color: #f44336; Rojo para error
 }
 
 h1 {
@@ -66,4 +66,4 @@ h1 {
     margin-bottom: 20px;
     text-transform: uppercase;
     text-align: center;
-}
+} */

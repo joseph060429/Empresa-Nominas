@@ -410,6 +410,57 @@ public class NominaDAO {
 
 	    return nombre;
 	}
+	
+	//Eliminar
+	public boolean eliminar(String dniEmpleado) throws SQLException {
+		String sql = null;
+		estadoOperacion = false;
+		connection = obtenerConexion();
+		try {
+			connection.setAutoCommit(false);
+
+			sql = "UPDATE empleados SET deleted=TRUE WHERE dni=? AND deleted = 0";
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, dniEmpleado);
+
+			estadoOperacion = statement.executeUpdate() > 0;
+			connection.commit();
+
+			statement.close();
+			connection.close();
+
+		} catch (SQLException e) {
+			connection.rollback();
+			e.printStackTrace();
+		}
+
+		return estadoOperacion;
+	}
+	
+	
+	//Metodo para ver si el empleado ya ha sido eliminado
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Obtiene una conexión a la base de datos a través del pool de conexiones.
 	 * @return Una conexión a la base de datos.

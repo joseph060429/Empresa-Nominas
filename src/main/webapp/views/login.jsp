@@ -1,46 +1,134 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="views/css/registro.css">
-    <link rel="stylesheet" type="text/css" href="views/css/mensajeError.css">
-    <title>Login Usuario</title>
-</head>
-<body>
-<%@ include file="/views/componentes/header.jsp" %>
-<c:if test="${not empty requestScope.mensajeError}">
-    <div class="error-message">${requestScope.mensajeError}</div>
+<h1>Iniciar Sesi髇</h1>
+<a href="/Gestion-Nominas/index.jsp" class="boton-atras">Volver</a>
+<form action="/Gestion-Nominas/Empresa?opcion=loginUsuario"
+	method="post">
+	<label for="email">Correo Electr髇ico:</label> <input type="text"
+		name="email" id="email" required><br>
+	<br> <label for="password">Contrase馻:</label> <input
+		type="password" name="password" id="password"
+		placeholder="M韓imo 8 caracteres" pattern=".{8,}"
+		title="La contrase馻 debe tener al menos 8 caracteres" required
+		maxlength="15" required><br>
+	<br> <input type="submit" value="Iniciar Sesi髇">
+</form>  
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<%--     <div id="alert" class="alert alert-success mt-4" role="alert"></div>
+	<script type="text/javascript" src="views/javaScript/borraBotones.js"></script>
+	<div id="alert" class="alert alert-success mt-4" role="alert"></div>
+ <c:if test="${not empty requestScope.mensajeError}">
+	<div class="error-message">${requestScope.mensajeError}</div>
 </c:if>
-
-    <h1>Iniciar Sesi贸n</h1>
-    <a href="/Gestion-Nominas/index.jsp" class="boton-atras">Volver</a>
-    <form action="Empresa?opcion=loginUsuario" method="post">
-        <label for="email">Correo Electr贸nico:</label>
-        <input type="text" name="email" id="email" required><br><br>
-
-        <label for="password">Contrase帽a:</label>
-        <input type="password" name="password" id="password" placeholder="M铆nimo 8 caracteres" pattern=".{8,}" title="La contrase帽a debe tener al menos 8 caracteres" required maxlength="15" required><br><br>
-
-        <input type="submit" value="Iniciar Sesi贸n">
-    </form>
-    
-<%@ include file="/views/componentes/footer.jsp" %>
-</body>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    var errorMessage = document.querySelector(".error-message");
-    
-    if (errorMessage) {
-        // Agrega una animaci贸n de desvanecimiento
-        errorMessage.style.animation = "fadeOut 4s ease 1 forwards";
-        
-        // Elimina el mensaje despu茅s de 4 segundos
-        setTimeout(function() {
-            errorMessage.style.display = "none";
-        }, 5000);
-    }
-});
+	document.addEventListener("DOMContentLoaded", function() {
+		var errorMessage = document.querySelector(".error-message");
+
+		if (errorMessage) {
+			// Agrega una animaci髇 de desvanecimiento
+			errorMessage.style.animation = "fadeOut 4s ease 1 forwards";
+
+			// Elimina el mensaje despu閟 de 5 segundos
+			setTimeout(function() {
+				errorMessage.style.display = "none";
+			}, 7000);
+		}
+	});
+</script>  --%>
+<%-- <script>
+		//Mensajes de error o de exito	
+		function showAlert(type, message) {
+			var alertElement = document.getElementById("alert");
+			alertElement.innerHTML = message;
+
+			if (type === "error") {
+				alertElement.className = "error-message"; // Usar la clase error-message para los mensajes de error
+			} else {
+				alertElement.className = "success-message";
+			}
+
+			alertElement.style.display = "block";
+			alertElement.style.opacity = 1;
+			setTimeout(function() {
+				alertElement.style.opacity = 0;
+				setTimeout(function() {
+					alertElement.style.display = "none"; // Ocultar el mensaje
+				}, 500); // Tiempo adicional para ocultar el mensaje
+			}, 6000);
+		}
 </script>
-</html>
+
+	<c:if test="${not empty mensajeExito}">
+		<script>
+			showAlert("success", "<c:out value='${mensajeExito}' />");
+		</script>
+	</c:if>
+
+	<c:if test="${not empty mensajeError}">
+		<script>
+			showAlert("error", "<c:out value='${mensajeError}' />");
+		</script>
+	</c:if>
+     --%>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
