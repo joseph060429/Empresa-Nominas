@@ -1,4 +1,6 @@
-com.conexion
-com.controller.nomina
-com.nomina.model
-com.nominaDAO
+es.gestion.nominas.app.web
+es.gestion.nominas.app.web.controlador
+es.gestion.nominas.app.web.modelos
+es.gestion.nominas.app.web.repositorio
+es.gestion.nominas.app.web.servicio
+es.gestion.nominas.app.web.usuarios.dto

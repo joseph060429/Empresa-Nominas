@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<style>
+		body {
+			background-color: #f8f9fa;
+		}
+
+		.container {
+			margin-top: 20px;
+		}
+
+		h1 {
+			color: #fff;
+			font-size: 2rem;
+		}
+
+		.menu-container {
+			margin-top: 20px;
+		}
+
+		.list-group-item a {
+			text-decoration: none;
+			color: #fff;
+			font-weight: bold;
+		}
+
+		.list-group-item {
+			background-color: #ff5733;
+			border-color: #ff5733;
+			margin-bottom: 10px;
+		}
+
+		.list-group-item:hover {
+			background-color: #e84529;
+			border-color: #e84529;
+		}
+
+		#alert {
+			position: absolute;
+			top: 0;
+			right: 0;
+			background-color: green;
+			color: white;
+			padding: 20px;
+			font-size: 18px;
+			text-align: right;
+			border-radius: 10px;
+			opacity: 1;
+			animation: fadeOut 2s ease-in-out;
+			/* Utiliza la animación de desvanecimiento */
+		}
+
+		#error-alert {
+			background-color: red;
+			opacity: 1;
+			animation: fadeOut 2s ease-in-out;
+			/* Utiliza la animación de desvanecimiento */
+		}
+
+		/* Animación de desvanecimiento */
+		@keyframes fadeOut {
+			0% {
+				opacity: 1;
+			}
+
+			100% {
+				opacity: 0;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div th:replace="@{/componentes/header.html}"></div>
+	<div th:replace="@{/componentes/footer.html}"></div>
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				<div class="text-center mb-4">
+					<h2>Menú de Opciones Empleado</h2>
+				</div>
+				<div class="menu-container">
+					<ul class="list-group">
+						<li class="list-group-item"><a href="/empleados/crear"
+								class="btn btn-danger btn-block">Registrar un Empleado</a></li>
+						<li class="list-group-item"><a href="/empleados/listar" class="btn btn-danger btn-block">Buscar
+								Empleados</a></li>
+						<li class="list-group-item"><a href="/buscar/salarios" class="btn btn-danger btn-block">Buscar
+								Salarios</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div th:if="${exito}" class="alert alert-success" role="alert">
+    <strong>Éxito:</strong> ${exito}
+</div>
+	</div>
+
+</body>
+
+</html>

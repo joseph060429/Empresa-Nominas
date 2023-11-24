@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.conexion"},{"l":"com.controller.nomina"},{"l":"com.nomina.model"},{"l":"com.nominaDAO"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"es.gestion.nominas.app.web"},{"l":"es.gestion.nominas.app.web.controlador"},{"l":"es.gestion.nominas.app.web.modelos"},{"l":"es.gestion.nominas.app.web.repositorio"},{"l":"es.gestion.nominas.app.web.servicio"},{"l":"es.gestion.nominas.app.web.usuarios.dto"}];updateSearchResults();
